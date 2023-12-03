@@ -43,7 +43,7 @@ class pool_allocator {
             return reinterpret_cast<T*>(data) + cur;
         }
 
-        void deallocate(T* p, std::size_t n) {}
+        void deallocate(T*, std::size_t) {}
 
         template<class U>
         struct rebind {
