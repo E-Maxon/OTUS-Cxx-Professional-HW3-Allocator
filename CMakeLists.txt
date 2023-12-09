@@ -3,28 +3,34 @@ cmake_minimum_required(VERSION 3.2)
 set(PATCH_VERSION "1" CACHE INTERNAL "Patch version")
 set(PROJECT_VESRION 0.0.${PATCH_VERSION})
 
-project(pool_allocator VERSION ${PROJECT_VESRION})
+project(allocator VERSION ${PROJECT_VESRION})
 
-add_executable(pool_allocator pool_allocator.cpp)
+add_executable(allocator test.cpp)
 
-set_target_properties(pool_allocator PROPERTIES
+add_subdirectory(container pool_allocator)
+
+include_directories(container pool_allocator)	
+
+target_link_libraries(allocator pool_allocator container)
+
+set_target_properties(allocator PROPERTIES
     CXX_STANDARD 14
     CXX_STANDARD_REQUIRED ON
 )
 
 if (MSVC)
-    target_compile_options(pool_allocator PRIVATE
+    target_compile_options(allocator PRIVATE
         /W4
     )
 else ()
-    target_compile_options(pool_allocator PRIVATE
+    target_compile_options(allocator PRIVATE
         -Wall -Wextra -pedantic -Werror
     )
 endif()
 
 
 
-install(TARGETS pool_allocator RUNTIME DESTINATION bin)
+install(TARGETS allocator RUNTIME DESTINATION bin)
 
 set(CPACK_GENERATOR DEB)
 
